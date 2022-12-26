@@ -56,7 +56,41 @@ public final class LPC extends JavaPlugin implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onChat(final AsyncPlayerChatEvent event) {
+	public void onChatHighestPriority(final AsyncPlayerChatEvent event) {
+		if (this.getPriority().equalsIgnoreCase("HIGHEST")) {
+			this.handle(event);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onChatHighPriority(final AsyncPlayerChatEvent event) {
+		if (this.getPriority().equalsIgnoreCase("HIGH")) {
+			this.handle(event);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onChatNormalPriority(final AsyncPlayerChatEvent event) {
+		if (this.getPriority().equalsIgnoreCase("NORMAL")) {
+			this.handle(event);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onChatLowPriority(final AsyncPlayerChatEvent event) {
+		if (this.getPriority().equalsIgnoreCase("LOW")) {
+			this.handle(event);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onChatLowestPriority(final AsyncPlayerChatEvent event) {
+		if (this.getPriority().equalsIgnoreCase("LOWEST")) {
+			this.handle(event);
+		}
+	}
+
+	private void handle(AsyncPlayerChatEvent event) {
 		final String message = event.getMessage();
 		final Player player = event.getPlayer();
 
@@ -80,6 +114,10 @@ public final class LPC extends JavaPlugin implements Listener {
 		event.setFormat(format.replace("{message}", player.hasPermission("lpc.colorcodes") && player.hasPermission("lpc.rgbcodes")
 				? colorize(translateHexColorCodes(message)) : player.hasPermission("lpc.colorcodes") ? colorize(message) : player.hasPermission("lpc.rgbcodes")
 				? translateHexColorCodes(message) : message).replace("%", "%%"));
+	}
+
+	private String getPriority() {
+		return this.getConfig().getString("priority", "HIGHEST");
 	}
 
 	private String colorize(final String message) {
